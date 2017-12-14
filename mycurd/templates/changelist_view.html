@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load my_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,32 +9,7 @@
 </head>
 <body>
 <h1>列表页面</h1>
-<table class="table table-bordered table-hover table-striped">
-    <thead>
-    <tr>
-        {% for head in head_list %}
-        <th>{{ head }}</th>
-        {% endfor %}
-
-    </tr>
-    </thead>
-    <tbody>
-    {% for obj in data_list %}
-    <tr>
-    {% for col in obj %}
-    <td>{{ col }}</td>
-    {% endfor %}
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{##}
-{#{% for data in data_list %}#}
-{#    {% for col in data %}#}
-{#        {{ col }}#}
-{#    {% endfor %}#}
-{#    #}
-{#{% endfor %}#}
+{% mytable data_list head_list %}
 
 </body>
 </html>

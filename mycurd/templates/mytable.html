@@ -1,0 +1,19 @@
+
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+    <tr>
+        {% for head in head_list %}
+        <th>{{ head }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for obj in data_list %}
+        <tr>
+            {% for col in obj %}
+            <td>{{ col }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

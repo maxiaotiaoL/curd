@@ -22,8 +22,43 @@ class CurdConfig(object):
         ]
         return url_patterns
 
-    def changelist_view(self,*args,**kwargs):
-        return HttpResponse('changelist_view')
+    def changelist_view(self,request,*args,**kwargs):
+
+        # if not self.list_display:
+        #     print(self.model_class._meta.__dict__)
+        #     self.list_display = [self.model_class._meta.local_fields[0].verbose_name.lower(),]
+        head_list = []
+        if self.list_display:
+            for field_name in self.list_display:
+                if isinstance(field_name, str):
+                    # 根据类和字段名称，获取字段对象的verbose_name
+                    verbose_name = self.model_class._meta.get_field(field_name).verbose_name
+                else:
+                    verbose_name = field_name(self, None, True)
+                head_list.append(verbose_name)
+        else:
+            head_list.append(self.model_class._meta.model_name)
+
+        data_list = self.model_class.objects.all()
+
+        def get_new_data():
+            for row in data_list:
+                temp = []
+                if self.list_display:
+                    for field_name in self.list_display:
+                        if isinstance(field_name, str):
+                            val = getattr(row, field_name)
+                        else:
+                            val = field_name(self, row)
+                        temp.append(val)
+                else:
+                    temp.append(row)
+                yield temp
+
+        new_data_list = get_new_data()  #生成器
+        print('=======',new_data_list)
+
+        return render(request, 'changelist_view.html', {'data_list': new_data_list, 'head_list': head_list})
 
     def add_view(self, *args, **kwargs):
         return HttpResponse('add_view')
