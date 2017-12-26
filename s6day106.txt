@@ -1,0 +1,111 @@
+s6day106
+内容回顾：
+	- 分页
+	- 保留原搜索条件
+	- 其他：
+		- 不可修改
+			request.GET   QueryDict对象
+			request.GET._mutable = True
+			
+			params = QueryDict(mutable=True)
+		- 深浅拷贝
+			request.GET不要轻易修改
+		
+
+今日内容：
+	- 分页
+	- 编辑、添加后，跳转回原来页面
+	- changelist_view中的代码进行一次封装【因为其中的代码太多】
+	- action
+	- 搜索
+	- 所有视图函数加装饰器
+	
+	
+内容详细：
+	1. 整合分页
+		- 文件导入
+		- 注意参数
+		
+	2. 整合跳转
+		- QueryDict 
+		- _listfilter = "xxx"
+		- _listfilter很多地方会用，封装到了starkconfig.init中
+	
+	3. 单例模式【未完待续】
+		- 文件导入 
+		- 自定义类方法（有代价，告知所有人，以后实例化时，不要再 类(),使用 类.instance() ）
+			class Foo(object):
+				_instance = None
+
+				def __init__(self,name):
+					self.name = name
+
+				@classmethod
+				def instance(cls,*args,**kwargs):
+					if not Foo._instance:
+						obj = Foo(*args,**kwargs)
+						Foo._instance = obj
+					return Foo._instance
+
+
+			obj1 = Foo.instance('alex')
+			obj2 = Foo.instance('alex')
+			print(id(obj1),id(obj2))
+	
+	3.5. 功能代码的封装，将changelist_view中的所有代码，封装到了几个 ChangeList类
+		
+	4. 搜索
+		- Q 
+			- Q(id__gt=1)|Q(id=2)
+			- con = Q()
+		- 模板语言中的字典，不能以_开头   obj._
+		- GET请求
+		
+	5. action
+		- 函数是一个对象,
+			- func.__name__
+			- func.text = "sdfsfd"
+		- 循环展示
+		- 字符串形式：函数名
+		- 通过反射执行：函数
+		- 返回值
+	
+今日作业：
+	1. 封装代码 
+	2. 搜索
+	3. action
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

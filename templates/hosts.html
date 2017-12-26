@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .active{
+            background: lightgreen;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    {% for host in host_list %}
+    <li>{{ host }}</li>
+    {% endfor %}
+</ul>
+<hr>
+
+{% for page in html %}
+{{ page }}
+{% endfor %}
+
+
+</body>
+</html>

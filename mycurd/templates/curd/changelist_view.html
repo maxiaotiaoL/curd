@@ -1,0 +1,83 @@
+{% load staticfiles %}
+{% load my_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+<style>
+    .list-filter a{
+        display: inline-block;
+        padding: 3px 6px;
+        border: 1px solid #2e6da4;
+        margin: 3px 0;
+    }
+    .list-filter a.active{
+        background-color: #2e6da4;
+        color: white;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+
+
+    <div class="row">
+        <h1>列表页面</h1>
+        <!----------组合条件------------------>
+        {% if cl.show_comb_filter %}
+        <div class="list-filter">
+            {% for item in cl.gen_comb_filter %}
+                <div>
+                {% for col in item %}
+                    {{ col }}
+                {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!----------search------------------>
+        {% if cl.show_search_form %}
+        <form class="form-inline" method="get">
+            <div class="form-group">
+                <input type="text" class="form-control" name="_q">
+                <button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+            </div>
+        </form>
+        {% endif %}
+
+
+
+        <!---------添加按钮----------->
+        {% if cl.show_add_btn %}
+            <p><a href="{{ cl.add_url }}" class="btn btn-primary">添加</a></p>
+        {% endif %}
+
+        <form action="" method="post">
+            {% csrf_token %}
+            {% if cl.show_action_list %}
+            <div class="form-group">
+                <select name="list_action" class="form-control" style="display:inline-block;width: 200px;">
+
+                    <option value="">请选择action</option>
+                    {% for item in cl.modify_actions %}
+                        <option value="{{ item.name }}">{{ item.text }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-primary">执行</button>
+            </div>
+            {% endif %}
+
+            <!---------数据显示部分----------->
+            {% mytable cl.body_list cl.head_list %}
+        </form>
+
+
+    </div>
+    <!-----nav------------>
+    {{ cl.pager_obj.page_html|safe }}
+</div>
+</body>
+</html>

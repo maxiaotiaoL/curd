@@ -1,0 +1,40 @@
+<form method="post" novalidate class="form-horizontal col-xs-6">
+    {% csrf_token %}
+    {% for item in form %}
+        <div class="form-group">
+            <label for="{{ item.field.id }}" class="col-sm-2 control-label">{{ item.field.label_tag }}</label>
+            <div class="col-sm-10">
+                {{ item.field }}
+                {% if item.is_popup %}
+                    <div style="position: absolute;right: -8px;top: 10px;">
+                    <a href="#" onclick="popUp('{{ item.popup_url }}')" class="glyphicon glyphicon-search"></a>
+                    </div>
+                {% endif %}
+                <div style="font-size: 12px;color: #e4393c;background: #FFEBEB;line-height: 12px;">
+                    {{ item.field.errors.0 }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" class="btn btn-success" value="提交">
+        </div>
+    </div>
+</form>
+<script>
+    //popup回调函数
+    function popupCallback(dic) {
+        console.log(dic)
+        if(dic.status){  //是否添加到下拉框中
+            op = document.createElement('option');
+            op.value = dic.id;
+            op.text = dic.text;
+            op.setAttribute('selected','selected');
+            document.getElementById(dic._popbackid).appendChild(op)
+        }
+    }
+    function popUp(url) {
+        window.open( url,url,"status=1, height:500, width:600, toolbar=0, resizeable=0");
+    }
+</script>

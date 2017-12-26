@@ -8,8 +8,14 @@
     <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
 </head>
 <body>
-<h1>列表页面</h1>
-{% mytable data_list head_list %}
 
+<div class="container">
+    <div class="row">
+        <h1>修改页面</h1>
+        <hr>
+{#        {% include 'curd/form.html' %}#}
+        {% myform config form  %}
+    </div>
+</div>
 </body>
 </html>

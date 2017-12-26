@@ -17,8 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from mycurd.server import v1
+from app03 import views as views03
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^curd/', v1.site.urls),
+    url(r'^hosts/', views03.hosts),
+    url(r'^users/', views03.users),
 ]
