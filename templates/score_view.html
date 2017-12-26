@@ -1,10 +1,82 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <script src="{% static 'jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'highcharts.js' %}"></script>
 </head>
 <body>
-$END$
+<h1>{{ student_obj.customer.name }}的成绩视图</h1>
+<div class="btn-box" sid="{{ student_obj.pk }}">
+    {% for class in class_list %}
+        <button cid="{{ class.pk }}">{{ class }}</button>
+    {% endfor %}
+</div>
+<hr>
+<div id="container" style="max-width:800px;height:400px"></div>
+
 </body>
+<script>
+    $('.btn-box button').click(function () {
+        var sid = $('.btn-box').attr('sid'),
+            cid = $(this).attr('cid');
+        $.ajax({
+            url:'/curd/crm/student/'+sid+'/'+cid+'/get_scores',
+            type:'get',
+            dataType:'JSON',
+            success:function (ret) {
+                console.log(ret);
+                if(ret.status){
+                    var chartConfig = {
+                        title: {
+                            text: '成绩折线图'
+                        },
+                        xAxis: {
+                            type: 'category',
+                            labels: {
+                                rotation: -45,
+                                style: {
+                                    fontSize: '13px',
+                                    fontFamily: 'Verdana, sans-serif'
+                                }
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: '成绩'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '成绩: <b>{point.y}分</b>'
+                        },
+                        series: [{
+                            name: '{{ student_obj.customer.name }}分数折线',
+                            data: []
+                        }],
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
+                        }
+                    };
+                    chartConfig.series[0].data = ret.data;
+                    Highcharts.chart('container',chartConfig)
+                    $('.highcharts-credits').html('')
+                }
+            }
+        })
+    })
+
+</script>
 </html>

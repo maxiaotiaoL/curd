@@ -24,7 +24,7 @@ class StudyRecordConfig(v1.CurdConfig):
     list_display = ['course_record','student',record_display,score_display]
     edit_link = ['course_record',]
 
-    show_add_btn = False
+    show_add_btn = True
     show_search_form = True
 
     show_comb_filter = True

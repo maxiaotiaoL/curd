@@ -1,14 +1,6 @@
-from django.forms import ModelForm
-from django.forms import widgets as wd
-from django.http import QueryDict
-from django.urls import reverse
-from django.utils.safestring import mark_safe
-from django.conf.urls import url,include
-from django.shortcuts import HttpResponse, redirect, render
+from django.shortcuts import HttpResponse,redirect,render
 
 from mycurd.server import v1
-from crm import models
-
 
 class UserInfoConfig(v1.CurdConfig):
     list_display = ['id','name','username','password','email','depart']
