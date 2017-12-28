@@ -427,6 +427,15 @@ class CurdConfig(object):
 
         return self.show_comb_filter
 
+    # =======================排序======
+
+    order_by = []
+    def get_order_by(self):
+        res = []
+        if self.order_by:
+            res.extend(self.order_by)
+        return res
+
 
     def changelist_view(self,request):
         """
@@ -454,7 +463,7 @@ class CurdConfig(object):
             if flag:
                 comb_condition["%s__in" % key] = value_list
 
-        querySet = self.model_class.objects.filter(self.get_cond_Q()).filter(**comb_condition).distinct()
+        querySet = self.model_class.objects.filter(self.get_cond_Q()).filter(**comb_condition).order_by(*self.get_order_by()).distinct()
         cl = ChangeList(self,querySet)
         return render(request, 'curd/changelist_view.html', {'cl':cl})
 
@@ -567,10 +576,10 @@ class CurdSite(object):
     def __init__(self):
         self._registry = {}
 
-    def register(self,model_class,config_class=None):
+    def register(self, model_class, config_class=None):
         if not config_class:
             config_class = CurdConfig
-        self._registry[model_class] = config_class(model_class,self)
+        self._registry[model_class] = config_class(model_class, self)
 
 
     def get_urls(self):
@@ -583,7 +592,7 @@ class CurdSite(object):
             # 为每一个类，创建4个URL
             app_name = model_class._meta.app_label
             model_name = model_class._meta.model_name
-            curd_url = url(r'^%s/%s/'%(app_name,model_name),(config_obj.urls,None,None))
+            curd_url = url(r'^%s/%s/' % (app_name, model_name), (config_obj.urls, None, None))
             url_patterns.append(curd_url)
         return url_patterns
 

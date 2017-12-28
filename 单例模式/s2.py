@@ -102,14 +102,38 @@ describe()				获取快速统计
 # print(df[1:3])
 
 
-class Foo(object):
-    def __init__(self, age):
-        self.age = age
+# class Foo(object):
+#     def __init__(self, age):
+#         self.age = age
+#
+#     def __add__(self, other):
+#         return self.age + other.age
+#
+# obj1 = Foo(18)
+# obj2 = Foo(20)
+#
+# print(obj1 + obj2)  # 38
 
-    def __add__(self, other):
-        return self.age + other.age
 
-obj1 = Foo(18)
-obj2 = Foo(20)
+arr = np.array([[1,2], [3, 4], [5, 6]])
+# print(arr)
+# print(arr[[0, 1, 2], [0, 1, 0]])  # [1 4 5]
+# print(arr[[0, 0], [1, 1]])  # [2 2]
+# print(np.array([arr[0, 1], arr[0, 1]]))  # [2 2]
 
-print(obj1 + obj2)  # 38
+
+# a = np.array([[1,2,3], [4,5,6], [7,8,9], [10, 11, 12]])
+# b = np.array([0, 2, 0, 1])
+#
+# print(a[[0,1,2,3], [0, 2, 0, 1]])
+
+# a = np.array([[1,2], [3, 4], [5, 6]])
+# bool_idx = a > 2
+#
+# print(a)
+# print(bool_idx)
+# print(a[bool_idx])
+
+# print(np.float32(65))
+
+a = np.arange(10)**3

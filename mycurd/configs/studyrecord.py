@@ -32,31 +32,30 @@ class StudyRecordConfig(v1.CurdConfig):
         v1.FilterOption('course_record'),
     ]
 
-
-    def action_checked(self,request):
+    def action_checked(self, request):
         pk_list = request.POST.getlist('pk')
         models.StudyRecord.objects.filter(pk__in=pk_list).update(record='checked')
-    action_checked.short_desc ="签到"
+    action_checked.short_desc = "签到"
 
-    def action_vacate(self,request):
+    def action_vacate(self, request):
         pk_list = request.POST.getlist('pk')
         print(pk_list)
-    action_vacate.short_desc ="请假"
+    action_vacate.short_desc = "请假"
 
-    def action_late(self,request):
+    def action_late(self, request):
         pk_list = request.POST.getlist('pk')
         print(pk_list)
-    action_late.short_desc ="缺勤"
+    action_late.short_desc = "迟到"
 
-    def action_noshow(self,request):
+    def action_noshow(self, request):
         pk_list = request.POST.getlist('pk')
         print(pk_list)
-    action_noshow.short_desc ="缺勤"
+    action_noshow.short_desc = "缺勤"
 
-    def action_leave_early(self,request):
+    def action_leave_early(self, request):
         pk_list = request.POST.getlist('pk')
         print(pk_list)
-    action_leave_early.short_desc ="早退"
+    action_leave_early.short_desc = "早退"
 
     show_action_list = True
-    action_list = [action_checked,action_vacate,action_late,action_noshow,action_leave_early]
+    action_list = [action_checked, action_vacate, action_late, action_noshow, action_leave_early]

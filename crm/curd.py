@@ -22,7 +22,7 @@ from mycurd.configs.classlist import ClassListConfig
 v1.site.register(models.ClassList, ClassListConfig)
 
 # 顾客记录
-from mycurd.configs.customerrecord import CustomerConfig
+from mycurd.configs.customer import CustomerConfig
 v1.site.register(models.Customer, CustomerConfig)
 
 # 客户跟进记录

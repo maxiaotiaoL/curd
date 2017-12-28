@@ -1,21 +1,8 @@
-{% load staticfiles %}
+{% extends 'curd/layout.html' %}
 {% load my_tags %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
-</head>
-<body>
-
-<div class="container">
+{% block body %}
     <div class="row">
         <h1>添加页面</h1>
-        <hr>
-        {% myform config form %}
-{#        {% include 'curd/form.html' %}#}
+        {% myform config form  %}
     </div>
-</div>
-</body>
-</html>
+{% endblock %}

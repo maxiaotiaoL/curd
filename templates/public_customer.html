@@ -1,0 +1,43 @@
+{% extends 'curd/layout.html' %}
+{% load my_tags %}
+{% block body %}
+    <div class="row">
+        <h1>公共用户</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>客户ID</th>
+                    <th>客户姓名</th>
+                    <th>当前销售</th>
+                    <th>抢单</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customer_list %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.consultant }}</td>
+                    {% if customer.consultant.id == current_user_id %}
+                        <td><a href="/curd/crm/customer/{{ customer.id }}/competition">抢单</a></td>
+                    {% else %}
+                        <td><a href="#">无权抢单</a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{##}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Title</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#</body>#}
+{#</html>#}

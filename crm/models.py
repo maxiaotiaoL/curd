@@ -23,7 +23,8 @@ class UserInfo(models.Model):
     password = models.CharField(verbose_name='密码', max_length=64)
     email = models.EmailField(verbose_name='邮箱', max_length=64)
 
-    depart = models.ForeignKey(verbose_name='部门', to="Department",to_field="code")
+    depart = models.ForeignKey(verbose_name='部门', to="Department", to_field="code")
+    openid = models.CharField(verbose_name='微信的唯一ID', max_length=64, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -165,9 +166,28 @@ class Customer(models.Model):
     consultant = models.ForeignKey(verbose_name="课程顾问", to='UserInfo', related_name='consultant',limit_choices_to={'depart_id__in':[1001,]})
     date = models.DateField(verbose_name="咨询日期", auto_now_add=True)
     last_consult_date = models.DateField(verbose_name="最后跟进日期", auto_now_add=True)
+    recv_date = models.DateField(verbose_name="当前顾问接单时间", null=True, blank=True)
 
     def __str__(self):
         return "姓名:{0},QQ:{1}".format(self.name, self.qq, )
+
+
+class CustomerDistribution(models.Model):
+    """
+    客户分配表
+    """
+    user = models.ForeignKey(to=UserInfo,related_name='cds',limit_choices_to={'depart_id':1001},verbose_name='课程顾问')
+    customer = models.ForeignKey(to=Customer,related_name='dealers',verbose_name='客户')
+    ctime = models.DateField(auto_now_add=True)
+    status_choices = (
+        (1, '正在跟进'),
+        (2, '已成单'),
+        (3, '3天未跟进'),
+        (4, '15天未成单'),
+    )
+    status = models.IntegerField(choices=status_choices,default=1,verbose_name='状态')
+    memo = models.CharField(max_length=255,verbose_name='更多信息')
+
 
 
 class ConsultRecord(models.Model):
@@ -281,4 +301,13 @@ class StudyRecord(models.Model):
     def __str__(self):
         return "{0}-{1}".format(self.course_record, self.student)
 
+
+
+class SaleRank(models.Model):
+    """
+    销售的权重和接受数量
+    """
+    user = models.ForeignKey(to=UserInfo, limit_choices_to={'depart_id': 1001}, verbose_name='课程顾问')
+    num = models.IntegerField(verbose_name='数量')
+    weight = models.IntegerField(verbose_name='权重')
 

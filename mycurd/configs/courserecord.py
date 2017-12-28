@@ -54,25 +54,24 @@ class CourseRecordConfig(v1.CurdConfig):
             study_record_list = models.StudyRecord.objects.filter(course_record_id=record_id)
             for obj in study_record_list:
                 # obj是对象
-                TempForm = type('TempForm',(Form,),{
-                    'score_%s' %obj.pk:fields.ChoiceField(choices=models.StudyRecord.score_choices),
-                    'homework_note_%s' %obj.pk: fields.CharField(widget=widgets.Textarea())
+                TempForm = type('TempForm', (Form,), {
+                    'score_%s' % obj.pk: fields.ChoiceField(choices=models.StudyRecord.score_choices),
+                    'homework_note_%s' % obj.pk: fields.CharField(widget=widgets.Textarea())
                 })
-                data.append({'obj':obj,'form':TempForm(initial={'score_%s' %obj.pk:obj.score,'homework_note_%s' %obj.pk:obj.homework_note})})
-            return render(request, 'score_list.html',
-                          {'data': data})
+                data.append({'obj': obj, 'form': TempForm(initial={'score_%s' % obj.pk: obj.score, 'homework_note_%s' % obj.pk:obj.homework_note})})
+            return render(request, 'score_list.html', {'data': data})
         else:
             data_dict = {}
-            for key,value in request.POST.items():
+            for key, value in request.POST.items():
                 if key == "csrfmiddlewaretoken":
                     continue
-                name,nid = key.rsplit('_',1)
+                name, nid = key.rsplit('_', 1)
                 if nid in data_dict:
                     data_dict[nid][name] = value
                 else:
-                    data_dict[nid] = {name:value}
+                    data_dict[nid] = {name: value}
 
-            for nid,update_dict in data_dict.items():
+            for nid, update_dict in data_dict.items():
                 models.StudyRecord.objects.filter(id=nid).update(**update_dict)
             return HttpResponse('....')
 

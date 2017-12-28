@@ -1,0 +1,32 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Title</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#</body>#}
+{#</html>#}
+
+{% extends 'curd/layout.html' %}
+{% load my_tags %}
+{% block body %}
+    <div class="row">
+        <h1>我的客户</h1>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <th>ID</th>
+                <th>姓名</th>
+            </thead>
+            <tbody>
+                {% for row in customers %}
+                    <tr>
+                        <td>{{ row.customer.id }}</td>
+                        <td>{{ row.customer.name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
